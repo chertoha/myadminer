@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\FeatureValue;
+use app\models\ItemFeature;
 
 /**
- * FeatureValueSearch represents the model behind the search form of `app\models\FeatureValue`.
+ * ItemFeatureSearch represents the model behind the search form of `app\models\ItemFeature`.
  */
-class FeatureValueSearch extends FeatureValue
+class ItemFeatureSearch extends ItemFeature
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class FeatureValueSearch extends FeatureValue
     public function rules()
     {
         return [
-            [['feature_val_id', 'feature_id'], 'integer'],
-            [['feature_val'], 'safe'],
+            [['item_feature_id', 'item_id', 'feature_val_id', 'item_feature_order'], 'integer'],
+            [['item_feature_avail'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class FeatureValueSearch extends FeatureValue
      */
     public function search($params)
     {
-        $query = FeatureValue::find()->with('feature');
+        $query = ItemFeature::find();
 
         // add conditions that should always apply here
 
@@ -58,13 +58,13 @@ class FeatureValueSearch extends FeatureValue
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'item_feature_id' => $this->item_feature_id,
+            'item_id' => $this->item_id,
             'feature_val_id' => $this->feature_val_id,
-            'feature_id' => $this->feature_id,
+            'item_feature_order' => $this->item_feature_order,
         ]);
 
-        $query->andFilterWhere(['like', 'feature_val', $this->feature_val])
-//                ->andFilterWhere(['like', 'feature.feature_descriptor', $this->feature->feature_descriptor])
-                ;
+        $query->andFilterWhere(['like', 'item_feature_avail', $this->item_feature_avail]);
 
         return $dataProvider;
     }

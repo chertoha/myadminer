@@ -4,18 +4,18 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\FeatureValueSearch */
+/* @var $searchModel app\models\ItemFeatureSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Feature Values';
+$this->title = 'Item Features';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="feature-value-index">
+<div class="item-feature-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Feature Value', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Item Feature', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,15 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            'item_feature_id',
+            'item_id',
             'feature_val_id',
-            'feature_id',
-            [
-                'attribute' => 'feature.feature_descriptor',
-                'filter' => ['1','2'],
-            ],
-            
-            'feature.feature_name',            
-            'feature_val',
+            'item_feature_avail',
+            'item_feature_order',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

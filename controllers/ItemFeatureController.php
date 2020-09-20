@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\FeatureValue;
-use app\models\FeatureValueSearch;
+use app\models\ItemFeature;
+use app\models\ItemFeatureSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\Feature;
-
+use app\models\FeatureValue;
+use app\models\Item;
 /**
- * FeatureValueController implements the CRUD actions for FeatureValue model.
+ * ItemFeatureController implements the CRUD actions for ItemFeature model.
  */
-class FeatureValueController extends Controller
+class ItemFeatureController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -31,12 +31,12 @@ class FeatureValueController extends Controller
     }
 
     /**
-     * Lists all FeatureValue models.
+     * Lists all ItemFeature models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FeatureValueSearch();
+        $searchModel = new ItemFeatureSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class FeatureValueController extends Controller
     }
 
     /**
-     * Displays a single FeatureValue model.
+     * Displays a single ItemFeature model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -59,27 +59,29 @@ class FeatureValueController extends Controller
     }
 
     /**
-     * Creates a new FeatureValue model.
+     * Creates a new ItemFeature model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new FeatureValue();
-        $features = Feature::find()->all();        
+        $model = new ItemFeature();
+        $feature_values = FeatureValue::find()->with('feature')->all();
+        $items = Item::find()->all(); 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->feature_val_id]);
+            return $this->redirect(['view', 'id' => $model->item_feature_id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'features' => $features,
+            'feature_values' => $feature_values,
+            'items' => $items,
         ]);
     }
 
     /**
-     * Updates an existing FeatureValue model.
+     * Updates an existing ItemFeature model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -88,20 +90,22 @@ class FeatureValueController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $features = Feature::find()->all();
+        $feature_values = FeatureValue::find()->with('feature')->all();
+        $items = Item::find()->all(); 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->feature_val_id]);
+            return $this->redirect(['view', 'id' => $model->item_feature_id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'features' => $features,
+            'feature_values' => $feature_values,
+            'items' => $items,
         ]);
     }
 
     /**
-     * Deletes an existing FeatureValue model.
+     * Deletes an existing ItemFeature model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -115,15 +119,15 @@ class FeatureValueController extends Controller
     }
 
     /**
-     * Finds the FeatureValue model based on its primary key value.
+     * Finds the ItemFeature model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return FeatureValue the loaded model
+     * @return ItemFeature the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = FeatureValue::findOne($id)) !== null) {
+        if (($model = ItemFeature::findOne($id)) !== null) {
             return $model;
         }
 

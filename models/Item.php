@@ -67,5 +67,6 @@ class Item extends \yii\db\ActiveRecord
     public function getBrand()
     {
         return $this->hasOne(Brand::className(), ['brand_id' => 'brand_id']);
-    }
+    }    
+   
 }

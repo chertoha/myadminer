@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use functions\MyFunctions;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ItemSearch */
@@ -19,30 +21,38 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php
-    echo $this->render('_search', [
-        'model' => $searchModel,
-        'brands' => $brands,
-        
-    ]);
+//    echo $this->render('_search', [
+//        'model' => $searchModel,
+//        'brands' => $brands,
+//    ]);
     ?>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'item_id',
-            'brand_id',
+            [
+                'attribute' => 'brand_id',
+                'label' => 'Brand Name',
+                'filter' => ArrayHelper::map($brands, 'brand_id', 'brand_name'),
+                'value' => function($model) {
+                    // TO DO
+                    // Переписать выполнение этого кода в модель Item
+                    return app\models\Brand::findOne(['brand_id' => $model->brand_id])->brand_name;
+                },
+            ],
             'item_name',
             'item_pub_name',
             'item_short_descr',
             'item_full_descr',
             'item_title',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);
+    ?>
 
 
 </div>
