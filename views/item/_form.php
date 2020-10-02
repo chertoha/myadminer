@@ -25,6 +25,9 @@ use app\models\Brand;
     <?= $form->field($model, 'item_full_descr')->textarea(['rows' => 10, 'cols' => 5])->label('Description') ?>
 
     <?= $form->field($model, 'item_title')->textInput(['maxlength' => true])->label('Title') ?>
+    
+    <?= $form->field($imageModel, 'imageFile')->fileInput()->label('Image') ?>
+    
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

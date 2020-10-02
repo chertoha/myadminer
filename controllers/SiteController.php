@@ -61,6 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        \functions\MyFunctions::vardump(Yii::$aliases);
         return $this->render('index');
     }
 

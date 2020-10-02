@@ -38,10 +38,15 @@ class ItemFeatureController extends Controller
     {
         $searchModel = new ItemFeatureSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $items = Item::find()->all();
+        $feature_values = FeatureValue::find()->with('feature')->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'items' => $items,
+            'feature_values' => $feature_values,
         ]);
     }
 
@@ -64,7 +69,7 @@ class ItemFeatureController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {
+    {       
         $model = new ItemFeature();
         $feature_values = FeatureValue::find()->with('feature')->all();
         $items = Item::find()->all(); 
@@ -72,6 +77,28 @@ class ItemFeatureController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->item_feature_id]);
         }
+        
+        
+        
+        if (Yii::$app->request->isAjax && Yii::$app->request->post('item_id')){
+            
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $item_id = Yii::$app->request->post('item_id');  
+            $sql = "SELECT * FROM item_feature itf  
+                    LEFT JOIN feature_value fv ON itf.feature_val_id=fv.feature_val_id 
+                    LEFT JOIN feature f ON fv.feature_id=f.feature_id 
+                    WHERE itf.item_id= :item_id 
+                    ORDER BY item_feature_order ASC";                    
+            $data = ItemFeature::findBySql($sql, ['item_id' => $item_id])->asArray()->all();
+//            $data['qqq'] = Yii::$app->request->post('item_id');
+            return $data;
+        }
+        
+//        if (Yii::$app->request->isAjax){   
+//            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+//            $data['qqq'] = Yii::$app->request->post('item_id');
+//            return $data;
+//        }
 
         return $this->render('create', [
             'model' => $model,
@@ -114,8 +141,7 @@ class ItemFeatureController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->redirect(['item-feature/index']);
     }
 
     /**

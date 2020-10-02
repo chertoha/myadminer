@@ -4,15 +4,20 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
+
+
 /* @var $this yii\web\View */
 /* @var $model app\models\ItemFeature */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<?= Html::csrfMetaTags() ?>
 
-<div class="item-feature-form">
-
+<div class  ="item-feature-form">
+    <div class="col-md-3">
     <?php $form = ActiveForm::begin(); ?>
-
+    
+    <?= Html::csrfMetaTags() ?>
+        
     <?= $form->field($model, 'item_id')
             ->dropDownList(ArrayHelper::map($items, 'item_id', 'item_name'), ['prompt' => 'Select Item'])->label('Items')
             ?>
@@ -35,5 +40,24 @@ use yii\helpers\ArrayHelper;
     </div>
 
     <?php ActiveForm::end(); ?>
+    </div>
+    
+    <div class="col-md-1">
+        
+    </div>
+    
+    <div class="col-md-8" id="itemfeature-tab">
+        
+    </div>
+    
 
 </div>
+
+<?php
+//$csrf_param = Yii::$app->request->csrfParam;
+//$csrf_token = Yii::$app->request->csrfToken;
+//functions\MyFunctions::vardump($csrf_param);
+//functions\MyFunctions::vardump($csrf_token);
+?>
+
+

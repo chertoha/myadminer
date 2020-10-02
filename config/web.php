@@ -15,6 +15,9 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+//        '@webroot' => dirname(dirname(__FILE__)) . '/web',
+        '@img'   => '/web/img', //alias for future front-end pictures (must be changed for front-end)
+        
     ],
     'components' => [
         'request' => [

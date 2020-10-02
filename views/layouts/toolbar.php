@@ -53,7 +53,7 @@ AppAsset::register($this);
                                         
                                         <li><a href="<?= Url::toRoute('feature/index') ?>">features </a></li>
                                         <li><a href="<?= Url::toRoute('feature-value/index') ?>">feature values </a></li>
-                                        <li><a href="<?= Url::toRoute('item-feature/index') ?>">item features </a></li>
+                                        <li><a href="<?= Url::toRoute('item-feature/index') ?>">item feature values </a></li>
                                         
                                         <li role="separator" class="divider"></li>
                                         

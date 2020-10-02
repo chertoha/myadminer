@@ -1,0 +1,10 @@
+1)
+config/db.php
+//поменять данные для подключения к БД
+
+2)
+config/web.php
+'aliases' => [	
+	'@img'   => '/web/img', //alias for future front-end pictures (must be changed for front-end)
+	// поменять на адрес для картинок фронтенда
+]
